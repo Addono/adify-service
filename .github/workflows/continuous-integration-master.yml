@@ -1,0 +1,37 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run slow test
+        run: mvn test -DskipTests=false -Dgroups=slow
+
+  merge-to-release:
+    runs-on: ubuntu-20.04
+
+    needs:
+      - test
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          fetch-depth: 0
+
+      - run: git checkout ${GITHUB_REF#refs/heads/}
+      - run: git config --global user.email noreply@github.com
+      - run: git config --global user.name "Github Bot"
+      - run: git rebase origin/release
+      - run: git branch release
+      - run: git push origin release:release
+      - run: git push origin :${GITHUB_REF#refs/heads/}

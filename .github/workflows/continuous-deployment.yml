@@ -1,11 +1,12 @@
-name: CD
+name: CI - Master
 
 on:
   push:
     branches:
-      - master
+      - release
 
 jobs:
+
   deploy:
     runs-on: ubuntu-20.04
 
