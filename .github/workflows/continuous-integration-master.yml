@@ -34,4 +34,3 @@ jobs:
       - run: git rebase origin/release
       - run: git branch release
       - run: git push origin release:release
-      - run: git push origin :${GITHUB_REF#refs/heads/}
