@@ -6,7 +6,7 @@ on:
       - "ready/*"
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-20.04
 
     steps:
@@ -15,11 +15,14 @@ jobs:
       - name: Compile
         run: mvn install
 
+      - name: Run fast tests
+        run: mvn test -DskipTests=false -Dgroups=fast
+
   automerge:
     runs-on: ubuntu-20.04
 
     needs:
-      - build
+      - build_and_test
   
     steps:
       - uses: actions/checkout@v2
