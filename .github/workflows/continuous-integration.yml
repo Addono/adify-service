@@ -31,6 +31,8 @@ jobs:
           fetch-depth: 0
 
       - run: git checkout ${GITHUB_REF#refs/heads/}
+      - run: git config --global user.email noreply@github.com
+      - run: git config --global user.name "Github Bot"
       - run: git rebase origin/master
       - run: git branch master
       - run: git push origin master:master
