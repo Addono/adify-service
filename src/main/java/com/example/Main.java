@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @SpringBootApplication
 public class Main {
 
-    @Value("${optimizelySdkKey}")
-    private static String optimizelySdkKey;
-
-    public static Optimizely optimizelyClient = OptimizelyFactory.newDefaultInstance(optimizelySdkKey);
-
     @RequestMapping("/")
     String index() {
         return "Hello, world!";

@@ -2,12 +2,10 @@ package com.example;
 
 import com.optimizely.ab.Optimizely;
 import com.optimizely.ab.OptimizelyFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 public class OptimizelyFeatureToggle implements FeatureToggle {
 
-    @Value("${optimizelySdkKey}")
-    private String optimizelySdkKey;
+    private String optimizelySdkKey = System.getenv("OPTIMIZELY_SDK_KEY");
     private Optimizely optimizelyClient = OptimizelyFactory.newDefaultInstance(optimizelySdkKey);
     private String userId;
 
