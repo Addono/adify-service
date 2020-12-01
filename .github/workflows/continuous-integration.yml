@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - "ready/*"
+      - "ready/**"
 
 jobs:
   build_and_test:
