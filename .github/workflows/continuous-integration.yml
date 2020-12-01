@@ -1,6 +1,9 @@
 name: CI
 
-on: push
+on:
+  push:
+    branches:
+      - "ready/*"
 
 jobs:
   build:
@@ -11,3 +14,23 @@ jobs:
 
       - name: Compile
         run: mvn install
+
+  automerge:
+    runs-on: ubuntu-20.04
+
+    needs:
+      - build
+  
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          fetch-depth: 0
+
+      - run: git checkout ${GITHUB_REF#refs/heads/}
+      - run: git rebase origin/master
+      - run: git branch master
+      - run: git push origin master:master
+      - run: git push origin :${GITHUB_REF#refs/heads/}
+
+      
